@@ -424,12 +424,31 @@ html:has(dialog:modal) {
   opacity: 1;
 }
 
+:root {
+  --field-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2IiBmaWxsPSJub25lIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjNjY2ODZCIiBzdHJva2Utd2lkdGg9IjEuMzMzMzMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==");
+}
+
 :where(select).field {
   appearance: none;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2IiBmaWxsPSJub25lIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjNjY2ODZCIiBzdHJva2Utd2lkdGg9IjEuMzMzMzMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==");
+  background-image: var(--field-arrow);
   background-repeat: no-repeat;
   background-position: right 8px center;
   padding-right: 28px;
+}
+
+:where(input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=time]).field {
+  padding-right: 8px;
+}
+
+:where(input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=time]).field::-webkit-calendar-picker-indicator {
+  width: 16px;
+  height: 16px;
+  margin: 0 0 0 4px;
+  padding: 0;
+  background: var(--field-arrow) no-repeat center;
+  color: transparent;
+  opacity: 1;
+  cursor: pointer;
 }
 
 :where(.field).field-bare {

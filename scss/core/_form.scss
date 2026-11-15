@@ -166,14 +166,38 @@
   opacity: 1;
 }
 
+// The arrow on a <select>, and on a date or time field in place of the
+// browser's own icon, so every field that opens a picker ends the same way.
+// A variable, so a dark theme swaps in a lighter stroke.
+:root {
+  --field-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2IiBmaWxsPSJub25lIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjNjY2ODZCIiBzdHJva2Utd2lkdGg9IjEuMzMzMzMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==");
+}
+
 // A <select>: the kit's own arrow, and room for it. (At a class's weight, so
 // utilities still win.)
 :where(select).field {
   appearance: none;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2IiBmaWxsPSJub25lIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjNjY2ODZCIiBzdHJva2Utd2lkdGg9IjEuMzMzMzMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==");
+  background-image: var(--field-arrow);
   background-repeat: no-repeat;
   background-position: right 8px center;
   padding-right: 28px; // original padding 16px + 12px of arrow img
+}
+
+// Date and time fields: the same arrow at the same place as a select's. The
+// browser's icon is its picker button (a calendar on a computer, an arrow
+// of its own on Android), so it keeps working; only its picture changes.
+:where(input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=time]).field {
+  padding-right: 8px;
+}
+:where(input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=time]).field::-webkit-calendar-picker-indicator {
+  width: 16px;
+  height: 16px;
+  margin: 0 0 0 4px;
+  padding: 0;
+  background: var(--field-arrow) no-repeat center;
+  color: transparent;
+  opacity: 1;
+  cursor: pointer;
 }
 
 // A field with no box of its own (.field.field-bare), for a field inside a
