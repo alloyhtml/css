@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" class="scrollbar-thin">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invoices | Ledger, an Alloy CSS example</title>
+  <meta name="description" content="One page of a made-up invoicing app, built with Alloy CSS and no JavaScript.">
+
+  <!-- Fonts and icons, from Google Fonts. Swap in your own. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Alloy CSS. This is the only stylesheet the page needs. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@alloyhtml/css@1/dist/alloy.min.css">
+
+  <!-- Optional: dark mode, when the visitor's device is set to dark. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@alloyhtml/css@1/dist/themes/dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body class="bg-base">
+
+<!-- No script anywhere on this page. The menus, the drawer, the dialog, the
+     tabs, the tooltips and the toast are HTML the browser already knows. -->
+
+<div class="flex min-height-100v">
+
+  <!-- Sidebar: docked on a wide screen, a drawer at 992px and below. -->
+  <aside id="nav" popover class="drawer shrink-0 bg-raised border-right border-subtle">
+    <div class="sticky top-0 flex flex-column height-100v overflow-y-auto padding-y-16">
+      <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-x-24 padding-bottom-20">
+        <span class="flex flex-items-center flex-justify-center size-32px rounded-8 bg-primary-1 text-white"><i class="material-icons icon-20" aria-hidden="true">receipt_long</i></span>
+        <span class="h5 font-weight-800 text-primary">Ledger</span>
+      </a>
+
+      <nav aria-label="Main" class="flex flex-column flex-gap-4 padding-x-12">
+        <a href="#" class="a a-color-reset flex flex-items-center padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 margin-right-12 text-secondary" aria-hidden="true">space_dashboard</i>Overview</a>
+        <a href="#" aria-current="page" class="a a-color-reset flex flex-items-center padding-x-12 padding-y-8 rounded-8 text-body-2 font-weight-600 bg-primary-light-1 text-primary-dark-1"><i class="material-icons icon-20 margin-right-12" aria-hidden="true">receipt_long</i><span class="grow-1">Invoices</span><span class="text-body-3">24</span></a>
+        <a href="#" class="a a-color-reset flex flex-items-center padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 margin-right-12 text-secondary" aria-hidden="true">group</i>Clients</a>
+        <a href="#" class="a a-color-reset flex flex-items-center padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 margin-right-12 text-secondary" aria-hidden="true">payments</i>Payments</a>
+        <a href="#" class="a a-color-reset flex flex-items-center padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 margin-right-12 text-secondary" aria-hidden="true">insights</i>Reports</a>
+      </nav>
+
+      <div class="margin-top-auto flex flex-column flex-gap-4 padding-x-12 padding-top-20">
+        <a href="#" class="a a-color-reset flex flex-items-center padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 margin-right-12 text-secondary" aria-hidden="true">settings</i>Settings</a>
+        <a href="#" class="a a-color-reset flex flex-items-center padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 margin-right-12 text-secondary" aria-hidden="true">help_outline</i>Help</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="grow-1 min-width-0 flex flex-column">
+
+    <!-- Top bar -->
+    <header class="sticky top-0 z-2 bg-raised border-bottom border-subtle">
+      <div class="flex flex-items-center flex-gap-12 padding-x-24 padding-x-16-xs padding-y-12">
+        <button type="button" popovertarget="nav" aria-label="Menu" class="tooltip hidden-md-greater shrink-0 flex flex-items-center flex-justify-center size-40px rounded-8 bg-transparent border-transparent text-primary cursor-pointer hover-bg-surface">
+          <i class="material-icons icon-24" aria-hidden="true">menu</i>
+          <span class="tip bg-inverse text-inverse text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Menu</span>
+        </button>
+
+        <!-- Search: a dropdown of recent searches; on a phone it takes the screen. -->
+        <div class="relative grow-1 min-width-0" style="max-width: 480px">
+          <button type="button" class="close-fullscreen fixed flex-items-center flex-justify-center bg-transparent border-none text-primary cursor-pointer" style="top: 8px; left: 4px; z-index: 1001; width: 40px; height: 48px" aria-label="Close search"><i class="material-icons icon-24" aria-hidden="true">chevron_left</i></button>
+          <div class="fullscreen-on-focus-sm relative" tabindex="-1" style="--fullscreen-padding: 8px 12px 8px 44px">
+            <form class="relative" role="search" action="#">
+              <span class="absolute top-0 bottom-0 left-0 flex flex-items-center flex-justify-center text-muted" style="width: 40px; pointer-events: none" aria-hidden="true"><i class="material-icons icon-20" aria-hidden="true">search</i></span>
+              <input class="field bg-sunken border-transparent rounded-20 padding-left-40" type="search" name="q" placeholder="Search" aria-label="Search invoices and clients" autocomplete="off" enterkeyhint="search">
+            </form>
+            <div class="show-on-parent-focus absolute left-0 right-0 z-4 padding-8 bg-raised border border-subtle rounded-12 shadow-3" style="top: calc(100% + 4px)">
+              <div class="text-body-3 font-weight-600 text-muted padding-x-8 padding-y-4">Recent searches</div>
+              <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-8 rounded-8 text-primary hover-bg-surface"><i class="material-icons icon-20 text-muted" aria-hidden="true">schedule</i>overdue</a>
+              <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-8 rounded-8 text-primary hover-bg-surface"><i class="material-icons icon-20 text-muted" aria-hidden="true">schedule</i>Lumen Architects</a>
+              <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-8 rounded-8 text-primary hover-bg-surface"><i class="material-icons icon-20 text-muted" aria-hidden="true">schedule</i>INV-0143</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="margin-left-auto flex flex-items-center flex-gap-8 shrink-0">
+          <!-- Notifications: a menu. -->
+          <button type="button" popovertarget="notifications" aria-label="Notifications, 3 new" class="tooltip tooltip-end relative flex flex-items-center flex-justify-center size-40px rounded-8 bg-transparent border-transparent text-primary cursor-pointer hover-bg-surface">
+            <i class="material-icons icon-24" aria-hidden="true">notifications_none</i>
+            <span class="absolute circle size-8px bg-red-1" style="top: 9px; right: 10px" aria-hidden="true"></span>
+            <span class="tip bg-inverse text-inverse text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Notifications</span>
+          </button>
+          <div id="notifications" popover class="menu menu-end bg-raised border border-subtle rounded-12 shadow-3" style="width: 340px">
+            <div class="flex flex-items-center flex-justify-between padding-x-16 padding-y-12 border-bottom border-subtle">
+              <span class="text-body-2 font-weight-700 text-primary">Notifications</span>
+              <a href="#" class="a text-body-3 font-weight-600">Mark all as read</a>
+            </div>
+            <div class="padding-8">
+              <a href="#" class="a a-color-reset flex flex-gap-12 padding-8 rounded-8 hover-bg-surface">
+                <span class="shrink-0 flex flex-items-center flex-justify-center size-32px circle bg-green-light-1 text-green-dark-2"><i class="material-icons icon-16" aria-hidden="true">check</i></span>
+                <span class="min-width-0"><span class="block text-body-2 text-primary"><b class="font-weight-600">Okafor Legal</b> paid INV-0145, $3,600.00</span><span class="block text-body-3 text-muted margin-top-2">Nov 11</span></span>
+              </a>
+              <a href="#" class="a a-color-reset flex flex-gap-12 padding-8 rounded-8 hover-bg-surface">
+                <span class="shrink-0 flex flex-items-center flex-justify-center size-32px circle bg-blue-light-1 text-blue-dark-1"><i class="material-icons icon-16" aria-hidden="true">visibility</i></span>
+                <span class="min-width-0"><span class="block text-body-2 text-primary"><b class="font-weight-600">Brightline Studio</b> opened INV-0146</span><span class="block text-body-3 text-muted margin-top-2">Nov 12</span></span>
+              </a>
+              <a href="#" class="a a-color-reset flex flex-gap-12 padding-8 rounded-8 hover-bg-surface">
+                <span class="shrink-0 flex flex-items-center flex-justify-center size-32px circle bg-red-light-1 text-red-dark-1"><i class="material-icons icon-16" aria-hidden="true">schedule</i></span>
+                <span class="min-width-0"><span class="block text-body-2 text-primary">INV-0144 to <b class="font-weight-600">Harbor &amp; Pine</b> is overdue</span><span class="block text-body-3 text-muted margin-top-2">Nov 12</span></span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Account: a menu. -->
+          <button type="button" popovertarget="account" aria-label="Account" class="flex flex-items-center flex-justify-center size-40px circle bg-primary-1 border-none text-white text-body-2 font-weight-700 cursor-pointer">AM</button>
+          <div id="account" popover class="menu menu-end padding-8 bg-raised border border-subtle rounded-12 shadow-3">
+            <div class="padding-x-12 padding-y-8 margin-bottom-4 border-bottom border-subtle">
+              <div class="text-body-2 font-weight-600 text-primary">Alex Morgan</div>
+              <div class="text-body-3 text-muted">alex@example.com</div>
+            </div>
+            <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 text-secondary" aria-hidden="true">person_outline</i>Profile</a>
+            <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 text-secondary" aria-hidden="true">credit_card</i>Billing</a>
+            <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 text-secondary" aria-hidden="true">logout</i>Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="grow-1">
+      <div class="container-1320 padding-y-32 padding-y-20-xs">
+
+        <!-- Page heading -->
+        <div class="flex flex-wrap flex-items-end flex-justify-between flex-gap-16 margin-bottom-24">
+          <div>
+            <h1 class="h3 h4-xs font-weight-700 text-primary">Invoices</h1>
+            <p class="text-body-2 text-secondary margin-top-4">24 invoices in the last 90 days</p>
+          </div>
+          <div class="flex flex-gap-8">
+            <button type="button" popovertarget="export" class="button bg-raised border-subtle text-primary font-weight-600 padding-x-16 hover-bg-surface">
+              <i class="material-icons icon-20 margin-right-8" aria-hidden="true">download</i>Export
+            </button>
+            <div id="export" popover class="menu menu-end padding-8 bg-raised border border-subtle rounded-12 shadow-3">
+              <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 text-secondary" aria-hidden="true">table_view</i>Spreadsheet (CSV)</a>
+              <a href="#" class="a a-color-reset flex flex-items-center flex-gap-12 padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface"><i class="material-icons icon-20 text-secondary" aria-hidden="true">picture_as_pdf</i>Summary (PDF)</a>
+            </div>
+            <button type="button" commandfor="new-invoice" command="show-modal" class="button bg-primary-1 border-primary-1 text-white font-weight-600 padding-x-16 hover-bg-primary-2 hover-border-primary-2 active-bg-primary-3 active-border-primary-3">
+              <i class="material-icons icon-20 margin-right-8" aria-hidden="true">add</i>New invoice
+            </button>
+          </div>
+        </div>
+
+        <!-- Numbers -->
+        <div class="flex flex-wrap flex-gutter-8 margin-bottom-16">
+          <div class="width-25 width-50-md">
+            <div class="height-100 bg-raised border border-subtle rounded-12 padding-20 padding-16-xs">
+              <div class="text-body-2 text-secondary">Outstanding</div>
+              <div class="h4 h5-xs font-weight-700 text-primary margin-top-4">$18,240</div>
+              <div class="text-body-3 text-muted margin-top-4">12 invoices</div>
+            </div>
+          </div>
+          <div class="width-25 width-50-md">
+            <div class="height-100 bg-raised border border-subtle rounded-12 padding-20 padding-16-xs">
+              <div class="text-body-2 text-secondary">Overdue</div>
+              <div class="h4 h5-xs font-weight-700 text-red-dark-1 margin-top-4">$4,860</div>
+              <div class="text-body-3 text-muted margin-top-4">3 invoices</div>
+            </div>
+          </div>
+          <div class="width-25 width-50-md">
+            <div class="height-100 bg-raised border border-subtle rounded-12 padding-20 padding-16-xs">
+              <div class="text-body-2 text-secondary">Paid in November</div>
+              <div class="h4 h5-xs font-weight-700 text-primary margin-top-4">$32,410</div>
+              <div class="flex flex-items-center text-body-3 text-green-dark-2 font-weight-600 margin-top-4"><i class="material-icons icon-16 margin-right-4" aria-hidden="true">trending_up</i>18% more than October</div>
+            </div>
+          </div>
+          <div class="width-25 width-50-md">
+            <div class="height-100 bg-raised border border-subtle rounded-12 padding-20 padding-16-xs">
+              <div class="text-body-2 text-secondary">Time to get paid</div>
+              <div class="h4 h5-xs font-weight-700 text-primary margin-top-4">11 days</div>
+              <div class="text-body-3 text-muted margin-top-4">2 days faster than October</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- A banner whose button picks the Overdue tab below: a label for its radio. -->
+        <div class="flex flex-wrap flex-items-center flex-gap-12 bg-red-light-1 border border-red-light-3 rounded-12 padding-x-20 padding-y-12 margin-bottom-16">
+          <i class="material-icons icon-20 text-red-dark-1" aria-hidden="true">error_outline</i>
+          <div class="grow-1 text-body-2 text-red-dark-1"><b class="font-weight-700">3 invoices are overdue</b>, $4,860 in total. A friendly reminder usually does it.</div>
+          <label for="tab-overdue" class="button button-sm bg-raised border-red-light-3 text-red-dark-1 font-weight-600 padding-x-12 cursor-pointer hover-bg-surface">Review them</label>
+        </div>
+
+        <!-- The invoices: tabs over four lists. -->
+        <div class="tabs bg-raised border border-subtle rounded-12">
+          <div class="flex flex-gap-24 padding-x-20 border-bottom border-subtle overflow-x-auto overflow-scroll-hidden">
+            <label class="tab padding-y-12 text-body-2 font-weight-600 text-nowrap"><input type="radio" name="status" checked>All <span class="text-muted font-weight-500 margin-left-4">24</span></label>
+            <label class="tab padding-y-12 text-body-2 font-weight-600 text-nowrap"><input type="radio" name="status" id="tab-overdue">Overdue <span class="text-muted font-weight-500 margin-left-4">3</span></label>
+            <label class="tab padding-y-12 text-body-2 font-weight-600 text-nowrap"><input type="radio" name="status">Paid <span class="text-muted font-weight-500 margin-left-4">10</span></label>
+            <label class="tab padding-y-12 text-body-2 font-weight-600 text-nowrap"><input type="radio" name="status">Drafts <span class="text-muted font-weight-500 margin-left-4">2</span></label>
+          </div>
+
+          <!-- All. Ticking a row swaps the toolbar for the bulk actions. -->
+          <div class="panel toggle">
+            <div class="show-when-off flex flex-wrap flex-items-center flex-gap-12 padding-x-20 padding-y-16">
+              <form class="relative grow-1" role="search" action="#" style="max-width: 320px">
+                <span class="absolute top-0 bottom-0 left-0 flex flex-items-center flex-justify-center text-muted" style="width: 32px; pointer-events: none" aria-hidden="true"><i class="material-icons icon-16" aria-hidden="true">search</i></span>
+                <input class="field field-sm padding-left-32" type="search" name="q" placeholder="Filter by client or number" aria-label="Filter invoices">
+              </form>
+              <button type="button" popovertarget="range" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface margin-left-auto">
+                <i class="material-icons icon-16 margin-right-8" aria-hidden="true">calendar_today</i>Last 90 days<i class="material-icons icon-16 margin-left-4" aria-hidden="true">expand_more</i>
+              </button>
+              <div id="range" popover class="menu menu-end padding-8 bg-raised border border-subtle rounded-12 shadow-3">
+                <a href="#" class="a a-color-reset block padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface">This month</a>
+                <a href="#" aria-current="true" class="a a-color-reset flex flex-items-center flex-justify-between padding-x-12 padding-y-8 rounded-8 text-body-2 font-weight-600 text-primary-1 hover-bg-surface">Last 90 days<i class="material-icons icon-16" aria-hidden="true">check</i></a>
+                <a href="#" class="a a-color-reset block padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface">This year</a>
+                <a href="#" class="a a-color-reset block padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface">All time</a>
+              </div>
+            </div>
+            <div class="show-when-on flex flex-wrap flex-items-center flex-gap-12 padding-x-20 padding-y-16 bg-primary-light-1">
+              <span class="text-body-2 font-weight-600 text-primary-dark-1 margin-right-auto width-100-xs">Selected invoices</span>
+              <button type="button" popovertarget="sent" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface"><i class="material-icons icon-16 margin-right-8" aria-hidden="true">send</i>Remind</button>
+              <button type="button" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface"><i class="material-icons icon-16 margin-right-8" aria-hidden="true">download</i>Download</button>
+            </div>
+
+            <table class="table table-hovered table-stack-sm" role="table" aria-label="All invoices">
+              <thead role="rowgroup">
+                <tr role="row" class="text-body-3 text-muted">
+                  <th role="columnheader" class="th-shrink padding-left-20"><span class="visually-hidden">Select</span></th>
+                  <th role="columnheader" class="text-left">Invoice</th>
+                  <th role="columnheader" class="text-left">Client</th>
+                  <th role="columnheader" class="text-left">Due</th>
+                  <th role="columnheader" class="text-left">Status</th>
+                  <th role="columnheader" class="text-right">Amount</th>
+                  <th role="columnheader" class="th-shrink padding-right-20 hidden-sm"><span class="visually-hidden">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody role="rowgroup" class="text-body-2">
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0149" aria-label="Select INV-0149"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0149</a><span class="block text-body-3 text-muted">Nov 15</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Okafor Legal</td>
+                  <td role="cell" data-label="Due" class="text-secondary text-nowrap">Nov 29</td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-sunken text-secondary border border-subtle"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">edit</i>Draft</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$950.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <button type="button" commandfor="new-invoice" command="show-modal" aria-label="Edit INV-0149" class="tooltip tooltip-up inline-flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-muted cursor-pointer hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">edit</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Edit</span></button>
+                    <a href="#" aria-label="Download INV-0149" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0148" aria-label="Select INV-0148"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0148</a><span class="block text-body-3 text-muted">Nov 14</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Tidewater Coffee</td>
+                  <td role="cell" data-label="Due" class="text-secondary text-nowrap">Nov 28</td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-sunken text-secondary border border-subtle"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">edit</i>Draft</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$1,250.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <button type="button" commandfor="new-invoice" command="show-modal" aria-label="Edit INV-0148" class="tooltip tooltip-up inline-flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-muted cursor-pointer hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">edit</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Edit</span></button>
+                    <a href="#" aria-label="Download INV-0148" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0147" aria-label="Select INV-0147"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0147</a><span class="block text-body-3 text-muted">Nov 12</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Lumen Architects</td>
+                  <td role="cell" data-label="Due" class="text-secondary text-nowrap">Nov 26</td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-blue-light-1 text-blue-dark-1 border border-blue-light-3"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">send</i>Sent</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$4,800.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <button type="button" popovertarget="sent" aria-label="Send a reminder for INV-0147" class="tooltip tooltip-up inline-flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-muted cursor-pointer hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">notifications_active</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Remind</span></button>
+                    <a href="#" aria-label="Download INV-0147" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0146" aria-label="Select INV-0146"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0146</a><span class="block text-body-3 text-muted">Nov 10</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Brightline Studio</td>
+                  <td role="cell" data-label="Due" class="text-secondary text-nowrap">Nov 24</td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-blue-light-1 text-blue-dark-1 border border-blue-light-3"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">visibility</i>Opened</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$2,340.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <button type="button" popovertarget="sent" aria-label="Send a reminder for INV-0146" class="tooltip tooltip-up inline-flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-muted cursor-pointer hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">notifications_active</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Remind</span></button>
+                    <a href="#" aria-label="Download INV-0146" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0145" aria-label="Select INV-0145"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0145</a><span class="block text-body-3 text-muted">Nov 3</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Okafor Legal</td>
+                  <td role="cell" data-label="Due" class="text-secondary text-nowrap">Nov 17</td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-green-light-1 text-green-dark-2 border border-green-light-3"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">check_circle</i>Paid</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$3,600.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <a href="#" aria-label="Receipt for INV-0145" class="tooltip tooltip-up a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">receipt</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Receipt</span></a>
+                    <a href="#" aria-label="Download INV-0145" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0144" aria-label="Select INV-0144"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0144</a><span class="block text-body-3 text-muted">Oct 28</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Harbor &amp; Pine</td>
+                  <td role="cell" data-label="Due" class="text-nowrap"><span><span class="text-secondary">Nov 11</span> <span class="text-body-3 font-weight-600 text-red-dark-1 margin-left-4">5 days late</span></span></td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-red-light-1 text-red-dark-1 border border-red-light-3"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">schedule</i>Overdue</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$1,980.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <button type="button" popovertarget="sent" aria-label="Send a reminder for INV-0144" class="tooltip tooltip-up inline-flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-muted cursor-pointer hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">notifications_active</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Remind</span></button>
+                    <a href="#" aria-label="Download INV-0144" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0143" aria-label="Select INV-0143"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0143</a><span class="block text-body-3 text-muted">Oct 24</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Northfield Clinic</td>
+                  <td role="cell" data-label="Due" class="text-nowrap"><span><span class="text-secondary">Nov 7</span> <span class="text-body-3 font-weight-600 text-red-dark-1 margin-left-4">9 days late</span></span></td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-red-light-1 text-red-dark-1 border border-red-light-3"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">schedule</i>Overdue</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$2,150.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <button type="button" popovertarget="sent" aria-label="Send a reminder for INV-0143" class="tooltip tooltip-up inline-flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-muted cursor-pointer hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">notifications_active</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Remind</span></button>
+                    <a href="#" aria-label="Download INV-0143" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="padding-left-20"><label class="check-fill"><input type="checkbox" name="invoice" value="INV-0142" aria-label="Select INV-0142"><i></i></label></td>
+                  <td role="cell" class="equal text-nowrap"><a href="#" class="a block font-weight-600">INV-0142</a><span class="block text-body-3 text-muted">Oct 20</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Vega Logistics</td>
+                  <td role="cell" data-label="Due" class="text-secondary text-nowrap">Nov 3</td>
+                  <td role="cell" data-label="Status"><span class="inline-flex flex-items-center text-nowrap height-24px padding-x-8 rounded-8 text-body-2 font-weight-500 bg-green-light-1 text-green-dark-2 border border-green-light-3"><i class="material-icons icon-12 margin-right-4" aria-hidden="true">check_circle</i>Paid</span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$6,400.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><span class="inline-flex flex-gap-4">
+                    <a href="#" aria-label="Receipt for INV-0142" class="tooltip tooltip-up a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">receipt</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Receipt</span></a>
+                    <a href="#" aria-label="Download INV-0142" class="tooltip tooltip-up tooltip-end a a-color-reset inline-flex flex-items-center flex-justify-center size-32px rounded-8 text-muted hover-bg-surface hover-text-primary"><i class="material-icons icon-20" aria-hidden="true">download</i><span class="tip bg-raised text-primary border border-subtle shadow-2 text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Download</span></a>
+                  </span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="flex flex-items-center flex-justify-between flex-gap-12 padding-x-20 padding-y-16 border-top border-subtle">
+              <span class="text-body-2 text-secondary">1 to 8 of 24</span>
+              <nav aria-label="Pages" class="flex flex-gap-8">
+                <span class="button button-sm bg-surface border-subtle text-muted padding-x-12 cursor-not-allowed" aria-disabled="true">Previous</span>
+                <a href="#" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface">Next</a>
+              </nav>
+            </div>
+          </div>
+
+          <!-- Overdue -->
+          <div class="panel">
+            <table class="table table-hovered table-stack-sm" role="table" aria-label="Overdue invoices">
+              <thead role="rowgroup">
+                <tr role="row" class="text-body-3 text-muted">
+                  <th role="columnheader" class="text-left padding-left-20">Invoice</th>
+                  <th role="columnheader" class="text-left">Client</th>
+                  <th role="columnheader" class="text-left">Due</th>
+                  <th role="columnheader" class="text-right">Amount</th>
+                  <th role="columnheader" class="th-shrink padding-right-20 hidden-sm"><span class="visually-hidden">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody role="rowgroup" class="text-body-2">
+                <tr role="row">
+                  <td role="cell" class="equal text-nowrap padding-left-20"><a href="#" class="a block font-weight-600">INV-0144</a><span class="block text-body-3 text-muted">Oct 28</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Harbor &amp; Pine</td>
+                  <td role="cell" data-label="Due" class="text-nowrap"><span><span class="text-secondary">Nov 11</span> <span class="text-body-3 font-weight-600 text-red-dark-1 margin-left-4">5 days late</span></span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$1,980.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><button type="button" popovertarget="sent" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface text-nowrap">Remind</button></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="equal text-nowrap padding-left-20"><a href="#" class="a block font-weight-600">INV-0143</a><span class="block text-body-3 text-muted">Oct 24</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Northfield Clinic</td>
+                  <td role="cell" data-label="Due" class="text-nowrap"><span><span class="text-secondary">Nov 7</span> <span class="text-body-3 font-weight-600 text-red-dark-1 margin-left-4">9 days late</span></span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$2,150.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><button type="button" popovertarget="sent" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface text-nowrap">Remind</button></td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="equal text-nowrap padding-left-20"><a href="#" class="a block font-weight-600">INV-0141</a><span class="block text-body-3 text-muted">Oct 15</span></td>
+                  <td role="cell" data-label="Client" class="text-primary">Marlow Books</td>
+                  <td role="cell" data-label="Due" class="text-nowrap"><span><span class="text-secondary">Oct 29</span> <span class="text-body-3 font-weight-600 text-red-dark-1 margin-left-4">18 days late</span></span></td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap">$730.00</td>
+                  <td role="cell" class="padding-right-20 hidden-sm"><button type="button" popovertarget="sent" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface text-nowrap">Remind</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="flex flex-items-center flex-justify-between flex-gap-12 padding-x-20 padding-y-16 border-top border-subtle">
+              <span class="text-body-2 text-secondary">3 overdue, $4,860.00 in total</span>
+              <button type="button" popovertarget="sent" class="button button-sm bg-primary-1 border-primary-1 text-white font-weight-600 padding-x-12 hover-bg-primary-2 hover-border-primary-2 text-nowrap">Remind all 3</button>
+            </div>
+          </div>
+
+          <!-- Paid -->
+          <div class="panel">
+            <table class="table table-hovered table-stack-sm" role="table" aria-label="Paid invoices">
+              <thead role="rowgroup">
+                <tr role="row" class="text-body-3 text-muted">
+                  <th role="columnheader" class="text-left padding-left-20">Invoice</th>
+                  <th role="columnheader" class="text-left">Client</th>
+                  <th role="columnheader" class="text-left">Paid on</th>
+                  <th role="columnheader" class="text-right padding-right-20">Amount</th>
+                </tr>
+              </thead>
+              <tbody role="rowgroup" class="text-body-2">
+                <tr role="row">
+                  <td role="cell" class="equal text-nowrap padding-left-20"><a href="#" class="a font-weight-600">INV-0145</a></td>
+                  <td role="cell" data-label="Client" class="text-primary">Okafor Legal</td>
+                  <td role="cell" data-label="Paid on" class="text-secondary text-nowrap">Nov 11, by card</td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap padding-right-20">$3,600.00</td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="equal text-nowrap padding-left-20"><a href="#" class="a font-weight-600">INV-0140</a></td>
+                  <td role="cell" data-label="Client" class="text-primary">Brightline Studio</td>
+                  <td role="cell" data-label="Paid on" class="text-secondary text-nowrap">Nov 9, bank transfer</td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap padding-right-20">$2,900.00</td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="equal text-nowrap padding-left-20"><a href="#" class="a font-weight-600">INV-0139</a></td>
+                  <td role="cell" data-label="Client" class="text-primary">Tidewater Coffee</td>
+                  <td role="cell" data-label="Paid on" class="text-secondary text-nowrap">Nov 6, by card</td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap padding-right-20">$1,100.00</td>
+                </tr>
+                <tr role="row">
+                  <td role="cell" class="equal text-nowrap padding-left-20"><a href="#" class="a font-weight-600">INV-0142</a></td>
+                  <td role="cell" data-label="Client" class="text-primary">Vega Logistics</td>
+                  <td role="cell" data-label="Paid on" class="text-secondary text-nowrap">Nov 2, bank transfer</td>
+                  <td role="cell" class="text-right font-weight-700 text-primary text-nowrap padding-right-20">$6,400.00</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="flex flex-items-center flex-justify-between flex-gap-12 padding-x-20 padding-y-16 border-top border-subtle">
+              <span class="text-body-2 text-secondary">1 to 4 of 10</span>
+              <a href="#" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface">Next</a>
+            </div>
+          </div>
+
+          <!-- Drafts -->
+          <div class="panel">
+            <div class="flex flex-column flex-items-center text-center padding-x-20 padding-y-40">
+              <span class="flex flex-items-center flex-justify-center size-48px circle bg-sunken text-secondary margin-bottom-12"><i class="material-icons icon-24" aria-hidden="true">edit_note</i></span>
+              <div class="text-body-1 font-weight-600 text-primary">2 drafts waiting</div>
+              <p class="text-body-2 text-secondary margin-top-4 margin-bottom-16">INV-0149 for Okafor Legal and INV-0148 for Tidewater Coffee, $2,200.00 together.</p>
+              <button type="button" commandfor="new-invoice" command="show-modal" class="button bg-raised border-subtle text-primary font-weight-600 padding-x-16 hover-bg-surface">Finish INV-0149</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two side panels -->
+        <div class="flex flex-wrap flex-gutter-8 margin-top-8">
+          <div class="width-50 width-100-md">
+            <section class="height-100 bg-raised border border-subtle rounded-12 padding-20" aria-labelledby="top-clients">
+              <div class="flex flex-items-center flex-justify-between margin-bottom-16">
+                <h2 id="top-clients" class="text-body-1 font-weight-700 text-primary">Top clients</h2>
+                <span class="text-body-3 text-muted">Last 90 days</span>
+              </div>
+              <div class="flex flex-column flex-gap-16">
+                <div>
+                  <div class="flex flex-justify-between text-body-2 margin-bottom-8"><span class="text-primary font-weight-500">Lumen Architects</span><span class="text-secondary">$14,200</span></div>
+                  <div class="rounded-4 bg-sunken"><div class="padding-y-2 rounded-4 bg-primary-1 width-100"></div></div>
+                </div>
+                <div>
+                  <div class="flex flex-justify-between text-body-2 margin-bottom-8"><span class="text-primary font-weight-500">Vega Logistics</span><span class="text-secondary">$12,800</span></div>
+                  <div class="rounded-4 bg-sunken"><div class="padding-y-2 rounded-4 bg-primary-1" style="width: 90%"></div></div>
+                </div>
+                <div>
+                  <div class="flex flex-justify-between text-body-2 margin-bottom-8"><span class="text-primary font-weight-500">Okafor Legal</span><span class="text-secondary">$9,450</span></div>
+                  <div class="rounded-4 bg-sunken"><div class="padding-y-2 rounded-4 bg-primary-1" style="width: 67%"></div></div>
+                </div>
+                <div>
+                  <div class="flex flex-justify-between text-body-2 margin-bottom-8"><span class="text-primary font-weight-500">Brightline Studio</span><span class="text-secondary">$7,540</span></div>
+                  <div class="rounded-4 bg-sunken"><div class="padding-y-2 rounded-4 bg-primary-1" style="width: 53%"></div></div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="width-50 width-100-md">
+            <section class="height-100 bg-raised border border-subtle rounded-12 padding-20" aria-labelledby="activity">
+              <h2 id="activity" class="text-body-1 font-weight-700 text-primary margin-bottom-16">Recent activity</h2>
+              <ul class="ul-unstyled flex flex-column flex-gap-16">
+                <li class="flex flex-gap-12">
+                  <span class="shrink-0 flex flex-items-center flex-justify-center size-32px circle bg-green-light-1 text-green-dark-2"><i class="material-icons icon-16" aria-hidden="true">check</i></span>
+                  <span class="grow-1 min-width-0 text-body-2 text-primary">Okafor Legal paid INV-0145<span class="block text-body-3 text-muted">$3,600.00 by card</span></span>
+                  <span class="shrink-0 text-body-3 text-muted">Nov 11</span>
+                </li>
+                <li class="flex flex-gap-12">
+                  <span class="shrink-0 flex flex-items-center flex-justify-center size-32px circle bg-blue-light-1 text-blue-dark-1"><i class="material-icons icon-16" aria-hidden="true">visibility</i></span>
+                  <span class="grow-1 min-width-0 text-body-2 text-primary">Brightline Studio opened INV-0146<span class="block text-body-3 text-muted">Twice, from an email</span></span>
+                  <span class="shrink-0 text-body-3 text-muted">Nov 12</span>
+                </li>
+                <li class="flex flex-gap-12">
+                  <span class="shrink-0 flex flex-items-center flex-justify-center size-32px circle bg-primary-light-1 text-primary-dark-1"><i class="material-icons icon-16" aria-hidden="true">send</i></span>
+                  <span class="grow-1 min-width-0 text-body-2 text-primary">You sent INV-0147 to Lumen Architects<span class="block text-body-3 text-muted">$4,800.00, due Nov 26</span></span>
+                  <span class="shrink-0 text-body-3 text-muted">Nov 12</span>
+                </li>
+                <li class="flex flex-gap-12">
+                  <span class="shrink-0 flex flex-items-center flex-justify-center size-32px circle bg-red-light-1 text-red-dark-1"><i class="material-icons icon-16" aria-hidden="true">schedule</i></span>
+                  <span class="grow-1 min-width-0 text-body-2 text-primary">INV-0144 is overdue<span class="block text-body-3 text-muted">Harbor &amp; Pine, $1,980.00</span></span>
+                  <span class="shrink-0 text-body-3 text-muted">Nov 12</span>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </div>
+
+        <!-- Questions: an accordion. -->
+        <section class="margin-top-8 bg-raised border border-subtle rounded-12 padding-x-20 padding-y-8" aria-labelledby="questions">
+          <h2 id="questions" class="visually-hidden">Questions</h2>
+          <details name="faq" class="border-bottom border-subtle">
+            <summary class="flex flex-items-center flex-justify-between flex-gap-12 padding-y-12">
+              <span class="text-body-2 font-weight-600 text-primary">When does a client get a reminder on their own?</span>
+              <i class="material-icons icon-20 text-secondary rotate-when-open" aria-hidden="true">expand_more</i>
+            </summary>
+            <p class="text-body-2 text-secondary padding-bottom-12">Three days before the due date, on the day, and every seven days after. Change it in Settings.</p>
+          </details>
+          <details name="faq">
+            <summary class="flex flex-items-center flex-justify-between flex-gap-12 padding-y-12">
+              <span class="text-body-2 font-weight-600 text-primary">Can a client pay part of an invoice?</span>
+              <i class="material-icons icon-20 text-secondary rotate-when-open" aria-hidden="true">expand_more</i>
+            </summary>
+            <p class="text-body-2 text-secondary padding-bottom-12">Yes. The invoice stays open, showing what's left, until the rest arrives.</p>
+          </details>
+        </section>
+
+        <p class="text-body-3 text-muted text-center margin-top-32">
+          Ledger is a made-up app. This page is one HTML file with <a href="https://github.com/alloyhtml/css" class="a font-weight-600">Alloy CSS</a> and no JavaScript.
+          <a href="https://github.com/alloyhtml/css/blob/master/example.html" class="a font-weight-600">See its source</a>.
+        </p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- New invoice: a dialog. A form with method="dialog" closes it when sent. -->
+<dialog id="new-invoice" closedby="any" aria-labelledby="new-invoice-title" class="dialog bg-raised rounded-12 shadow-4 width-40 width-60-md width-90-sm width-100-xs height-100-xs rounded-0-xs">
+  <form method="dialog">
+    <div class="flex flex-items-center flex-justify-between padding-x-24 padding-y-16 border-bottom border-subtle">
+      <h2 id="new-invoice-title" class="h5 font-weight-700 text-primary">New invoice</h2>
+      <button type="button" commandfor="new-invoice" command="close" aria-label="Close" class="tooltip tooltip-end flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-secondary cursor-pointer hover-bg-surface">
+        <i class="material-icons icon-20" aria-hidden="true">close</i>
+        <span class="tip bg-inverse text-inverse text-body-3 font-weight-500 padding-x-8 padding-y-4 rounded-4" aria-hidden="true">Close</span>
+      </button>
+    </div>
+
+    <div class="padding-24 flex flex-column flex-gap-16">
+      <div>
+        <label for="client" class="block text-body-3 font-weight-600 text-primary margin-bottom-4">Client</label>
+        <select id="client" name="client" class="field" required>
+          <option value="">Choose a client</option>
+          <option>Brightline Studio</option>
+          <option>Harbor &amp; Pine</option>
+          <option>Lumen Architects</option>
+          <option>Marlow Books</option>
+          <option>Northfield Clinic</option>
+          <option>Okafor Legal</option>
+          <option>Tidewater Coffee</option>
+          <option>Vega Logistics</option>
+        </select>
+      </div>
+
+      <div class="flex flex-gap-12 flex-column-xs">
+        <div class="equal">
+          <label for="number" class="block text-body-3 font-weight-600 text-primary margin-bottom-4">Number</label>
+          <input id="number" name="number" class="field" value="INV-0150" readonly>
+        </div>
+        <div class="equal">
+          <label for="issued" class="block text-body-3 font-weight-600 text-primary margin-bottom-4">Issue date</label>
+          <input id="issued" name="issued" class="field" type="date" value="2026-11-16">
+        </div>
+      </div>
+
+      <fieldset class="border-none padding-0 margin-0">
+        <legend class="text-body-3 font-weight-600 text-primary margin-bottom-8">Payment due</legend>
+        <div class="flex flex-wrap flex-gap-8">
+          <label class="choice"><input type="radio" name="terms" value="0">On receipt</label>
+          <label class="choice"><input type="radio" name="terms" value="15">In 15 days</label>
+          <label class="choice"><input type="radio" name="terms" value="30" checked>In 30 days</label>
+        </div>
+      </fieldset>
+
+      <div class="flex flex-gap-12 flex-wrap-xs">
+        <div class="grow-1 width-100-xs">
+          <label for="item" class="block text-body-3 font-weight-600 text-primary margin-bottom-4">Work</label>
+          <input id="item" name="item" class="field" placeholder="Brand guidelines, round two" required>
+        </div>
+        <div style="width: 88px">
+          <label for="hours" class="block text-body-3 font-weight-600 text-primary margin-bottom-4">Hours</label>
+          <input id="hours" name="hours" class="field" type="number" min="0" step="0.5" value="12" inputmode="decimal">
+        </div>
+        <div style="width: 112px">
+          <label for="rate" class="block text-body-3 font-weight-600 text-primary margin-bottom-4">Rate ($)</label>
+          <input id="rate" name="rate" class="field" type="number" min="0" value="150" inputmode="decimal">
+        </div>
+      </div>
+
+      <details class="border border-subtle rounded-8">
+        <summary class="flex flex-items-center flex-justify-between padding-x-12 padding-y-8">
+          <span class="text-body-2 font-weight-600 text-primary">Note to the client</span>
+          <i class="material-icons icon-20 text-secondary rotate-when-open" aria-hidden="true">expand_more</i>
+        </summary>
+        <div class="padding-x-12 padding-bottom-12">
+          <textarea name="note" class="field" aria-label="Note to the client" placeholder="Thanks for the work this month."></textarea>
+        </div>
+      </details>
+
+      <label class="flex flex-items-center flex-justify-between flex-gap-12 cursor-pointer">
+        <span>
+          <span class="block text-body-2 font-weight-600 text-primary">Email it to the client now</span>
+          <span class="block text-body-3 text-muted">They get a link to pay by card or bank transfer.</span>
+        </span>
+        <span class="switch shrink-0"><input type="checkbox" name="email" checked aria-label="Email it to the client now"><i></i></span>
+      </label>
+    </div>
+
+    <div class="flex flex-items-center flex-justify-end flex-gap-8 padding-x-24 padding-y-16 border-top border-subtle">
+      <button type="button" commandfor="new-invoice" command="close" class="button bg-transparent border-transparent text-primary font-weight-600 padding-x-12 hover-bg-surface margin-right-auto hidden-xs">Cancel</button>
+      <button type="submit" name="action" value="draft" formnovalidate class="button text-nowrap bg-raised border-subtle text-primary font-weight-600 padding-x-16 hover-bg-surface">Save draft</button>
+      <button type="submit" name="action" value="send" class="button text-nowrap bg-primary-1 border-primary-1 text-white font-weight-600 padding-x-16 hover-bg-primary-2 hover-border-primary-2 active-bg-primary-3 active-border-primary-3">Send invoice</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Reminder sent: a toast. -->
+<div id="sent" popover="manual" role="status" class="toast flex flex-items-center flex-gap-12 bg-inverse text-inverse rounded-12 shadow-3 padding-x-16 padding-y-12">
+  <i class="material-icons icon-20 text-green-1" aria-hidden="true">check_circle</i>
+  <span class="text-body-2 grow-1">Reminder sent. You'll hear when it's opened.</span>
+  <button type="button" popovertarget="sent" popovertargetaction="hide" aria-label="Close" class="flex flex-items-center flex-justify-center size-32px rounded-8 bg-transparent border-transparent text-inverse cursor-pointer"><i class="material-icons icon-20" aria-hidden="true">close</i></button>
+</div>
+
+</body>
+</html>
