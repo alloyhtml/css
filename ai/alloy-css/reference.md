@@ -123,7 +123,7 @@ No breakpoint versions: the same at every width.
 | Firefox | 125 |
 | Safari | 17.5 |
 
-Menus, dialogs, tabs and filters are built on popover, :has(), color-mix() and light-dark(), which older browsers do not have.
+Menus, dialogs, tabs and filters are built on popover, :has(), color-mix() and light-dark(), which older browsers do not have. Dialogs need newer still: their buttons use command and commandfor, from Chrome and Edge 135, Firefox 144 and Safari 26.2. On an older browser the button that opens a dialog does nothing. A click outside closes a dialog from Safari 27.3; Esc and its close button work everywhere.
 
 #### Breakpoints
 

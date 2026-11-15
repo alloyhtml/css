@@ -184,9 +184,15 @@ Chrome and Edge 123, Firefox 125, Safari 17.5, and anything newer. The
 interactive parts are built on popover, `:has()`, `color-mix()` and
 `light-dark()`, which older browsers don't have.
 
+Dialogs need newer still: the buttons that open and close them use
+`command` and `commandfor`, from Chrome and Edge 135, Firefox 144 and
+Safari 26.2. On an older browser the button that opens a dialog does
+nothing. A click outside closes a dialog (`closedby="any"`) from Safari
+27.3; Esc and its close button work everywhere.
+
 ## Pages built with it
 
-[Alloy](https://alloyhtml.com) is 82 pages built only with this kit: a shop
+[Alloy Templates](https://alloyhtml.com/templates) are 82 pages built only with this kit: a shop
 and its back office, a blog, e-learning, news, healthcare booking, event
 tickets, a job portal and a company site. They're sold separately; the CSS
 is free.
