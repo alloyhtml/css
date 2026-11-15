@@ -1350,7 +1350,7 @@ The menu can sit anywhere in the markup, even inside a form: its fields still se
 
 ```html
 <details class="relative">
-  <summary class="flex flex-items-center flex-justify-center size-40px border border-subtle rounded-8">
+  <summary aria-label="Menu" class="flex flex-items-center flex-justify-center size-40px border border-subtle rounded-8">
     <i class="icon-24 material-icons text-secondary show-when-closed" aria-hidden="true">format_list_bulleted</i>
     <i class="icon-24 material-icons text-secondary show-when-open" aria-hidden="true">close</i>
   </summary>
