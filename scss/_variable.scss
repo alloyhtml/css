@@ -203,10 +203,11 @@ $semantic-borders: (
   // will slightly darken it. The existing default at 1.047:1 on the page
   // canvas is arguably too faint to see either; that is Plan 2's call.
   "border-subtle": hsl(210, 22%, 89%),
-  // Lands on the same mid-grey as text-muted below, and that is the palette
-  // having one mid-grey that satisfies both roles rather than a copy-paste.
-  // They diverge in dark mode, where each is pinned by a different threshold.
-  "border-strong": map-get($colors, "gray-2"),  // 4.06:1 on bg-surface -- clearly visible
+  // Field edges and other borders that must be seen. As light as the 3:1
+  // rule for a control's edge allows on every light surface: 3.56:1 on
+  // bg-raised, 3.10:1 on bg-sunken, the darkest a field sits on. (Was gray-2,
+  // 4.26:1 on white: darker than it had to be, and fields looked heavy.)
+  "border-strong": hsl(216, 15%, 55%),
 );
 
 $semantic-text: (
