@@ -4,6 +4,12 @@ One stylesheet for HTML your server renders. Utilities, plus the parts you'd
 usually pull in a JavaScript library for: dialogs, menus, drawers, tabs,
 tooltips and toasts, all working with scripts turned off.
 
+[![An invoicing app built with Alloy CSS: its menus, dialog, toast and tabs open with JavaScript turned off](media/example.gif)](https://alloyhtml.com/example.html)
+
+That's [example.html](example.html): one HTML file, this stylesheet, no
+script. **[Open it live](https://alloyhtml.com/example.html)**, use it, then
+view its source.
+
 Dark mode is included: two dark themes, ready to link.
 
 The kit holds the structure: spacing, sizes, breakpoints and the parts. Your
