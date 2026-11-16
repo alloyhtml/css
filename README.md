@@ -158,8 +158,17 @@ Where both define one, the stylesheet linked last wins.
 Without Alloy, ask AI for ten pages and you get ten ideas of what a button
 is. With it, every page is written from the same classes and values.
 
-`ai/alloy-css/` is a Claude skill: the rules in `SKILL.md`, and every class
-with examples in `reference.md`. Add it to your project from its root:
+The quick way, in any AI chat or agent:
+
+```
+Build an invoice page with Alloy CSS. Read alloyhtml.com/llms.txt first.
+```
+
+[llms.txt](https://alloyhtml.com/llms.txt) is the rules and every class in
+one plain text file. To keep it in a project for good, use the skill:
+
+`ai/alloy-css/` is a Claude skill: the same rules in `SKILL.md`, and every
+class with examples in `reference.md`. Add it to your project from its root:
 
 ```
 npx @alloyhtml/css skill
