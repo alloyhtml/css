@@ -159,20 +159,21 @@ Without Alloy, ask AI for ten pages and you get ten ideas of what a button
 is. With it, every page is written from the same classes and values.
 
 `ai/alloy-css/` is a Claude skill: the rules in `SKILL.md`, and every class
-with examples in `reference.md`. Copy it into your project:
+with examples in `reference.md`. Add it to your project from its root:
 
 ```
-cp -r node_modules/@alloyhtml/css/ai/alloy-css .claude/skills/
+npx @alloyhtml/css skill
 ```
 
+That copies it into `.claude/skills/alloy-css/`, where Claude Code finds it.
 Other tools (Cursor, Copilot, Codex) can read the same two files. Point your
-`AGENTS.md` or rules file at `ai/alloy-css/SKILL.md`.
+`AGENTS.md` or rules file at `.claude/skills/alloy-css/SKILL.md`.
 
 Then check what was written. `alloy-check` lists every class the kit
 doesn't define, with its file and line, and fails when it finds one:
 
 ```
-npx -p @alloyhtml/css alloy-check templates/
+npx @alloyhtml/css check templates/
 ```
 
 `--css your.css` adds your own stylesheet's classes, and `--allow name`

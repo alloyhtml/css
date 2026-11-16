@@ -82,7 +82,7 @@ Run the checker on what you wrote. It lists every class the kit doesn't
 define, with its file and line:
 
 ```
-npx alloy-check templates/
+npx @alloyhtml/css check templates/
 ```
 
 Pass `--css` for the project's own stylesheet and `--allow` for an icon
