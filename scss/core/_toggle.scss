@@ -10,6 +10,9 @@
 //     <i class="show-when-on">favorite</i>
 //   </label>
 //
+// A part that appears (a bar of bulk actions) goes inside an always-present
+// <div role="status">, so screen readers announce it when it shows.
+//
 // Toggles don't nest: an area's checkboxes would reach a toggle inside it.
 .toggle:not(:has(input[type="checkbox"]:checked)) .show-when-on,
 .toggle:has(input[type="checkbox"]:checked) .show-when-off {

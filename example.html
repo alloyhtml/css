@@ -205,10 +205,13 @@
                 <a href="#" class="a a-color-reset block padding-x-12 padding-y-8 rounded-8 text-body-2 text-primary hover-bg-surface">All time</a>
               </div>
             </div>
-            <div class="show-when-on flex flex-wrap flex-items-center flex-gap-12 padding-x-20 padding-y-16 bg-primary-light-1">
-              <span class="text-body-2 font-weight-600 text-primary-dark-1 margin-right-auto width-100-xs">Selected invoices</span>
-              <button type="button" popovertarget="sent" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface"><i class="material-icons icon-16 margin-right-8" aria-hidden="true">send</i>Remind</button>
-              <button type="button" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface"><i class="material-icons icon-16 margin-right-8" aria-hidden="true">download</i>Download</button>
+            <!-- role="status": screen readers announce the bar when it appears. -->
+            <div role="status">
+              <div class="show-when-on flex flex-wrap flex-items-center flex-gap-12 padding-x-20 padding-y-16 bg-primary-light-1">
+                <span class="text-body-2 font-weight-600 text-primary-dark-1 margin-right-auto width-100-xs">Selected invoices</span>
+                <button type="button" popovertarget="sent" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface"><i class="material-icons icon-16 margin-right-8" aria-hidden="true">send</i>Remind</button>
+                <button type="button" class="button button-sm bg-raised border-subtle text-primary font-weight-600 padding-x-12 hover-bg-surface"><i class="material-icons icon-16 margin-right-8" aria-hidden="true">download</i>Download</button>
+              </div>
             </div>
 
             <table class="table table-hovered table-stack-sm" role="table" aria-label="All invoices">
