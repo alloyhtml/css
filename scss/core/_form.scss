@@ -245,6 +245,7 @@
 :where(label).radio-stroke,
 :where(label).radio-fill,
 :where(label).switch {
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -255,10 +256,13 @@
 .radio-stroke input,
 .radio-fill input {
   // The real input stays in the page, unseen, so a keyboard reaches it and
-  // a screen reader reads it; the <i> after it draws the box.
+  // a screen reader reads it; the <i> after it draws the box. It covers the
+  // whole label, so a screen reader that goes by touch (TalkBack, VoiceOver)
+  // finds it under the finger.
   position: absolute;
-  width: 1px;
-  height: 1px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
   opacity: 0;
   pointer-events: none;
@@ -381,8 +385,9 @@
 // the switch.
 .switch input {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
   opacity: 0;
   pointer-events: none;

@@ -479,6 +479,7 @@ html:has(dialog:modal) {
 :where(label).radio-stroke,
 :where(label).radio-fill,
 :where(label).switch {
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -489,8 +490,9 @@ html:has(dialog:modal) {
 .radio-stroke input,
 .radio-fill input {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
   opacity: 0;
   pointer-events: none;
@@ -592,8 +594,9 @@ html:has(dialog:modal) {
 
 .switch input {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
   opacity: 0;
   pointer-events: none;
@@ -898,6 +901,10 @@ details[open] > summary .show-when-closed {
 }
 .tab input {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   opacity: 0;
   pointer-events: none;
 }
@@ -1072,6 +1079,10 @@ details[open] > summary .show-when-closed {
 
 :where(label).toggle > input {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   opacity: 0;
   pointer-events: none;
 }

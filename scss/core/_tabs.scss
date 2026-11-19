@@ -14,6 +14,10 @@
 // The radio stays in the page for keyboards and screen readers, just unseen.
 .tab input {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   opacity: 0;
   pointer-events: none;
 }
