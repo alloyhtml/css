@@ -495,7 +495,8 @@ html:has(dialog:modal) {
   height: 100%;
   margin: 0;
   opacity: 0;
-  pointer-events: none;
+  z-index: 1;
+  cursor: inherit;
 }
 .check-stroke input:focus-visible + i,
 .check-fill input:focus-visible + i,
@@ -599,7 +600,8 @@ html:has(dialog:modal) {
   height: 100%;
   margin: 0;
   opacity: 0;
-  pointer-events: none;
+  z-index: 1;
+  cursor: inherit;
 }
 
 .switch input:focus-visible + i {
@@ -906,7 +908,8 @@ details[open] > summary .show-when-closed {
   height: 100%;
   margin: 0;
   opacity: 0;
-  pointer-events: none;
+  z-index: 1;
+  cursor: inherit;
 }
 
 .tab {
@@ -1084,7 +1087,8 @@ details[open] > summary .show-when-closed {
   height: 100%;
   margin: 0;
   opacity: 0;
-  pointer-events: none;
+  z-index: 1;
+  cursor: inherit;
 }
 
 :where(label).toggle:has(> input:focus-visible) {
