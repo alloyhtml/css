@@ -1,5 +1,5 @@
 // scss/ -> dist/: the kit and each theme, readable and minified.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { compile } from 'sass';
 
 const files = {
@@ -15,4 +15,11 @@ for (const [name, entry] of Object.entries(files)) {
     writeFileSync(`dist/${name}${style === 'compressed' ? '.min' : ''}.css`, css + '\n');
   }
 }
-console.log('built dist/');
+
+// The example loads this exact version from jsDelivr, so a new release is a
+// new address and no browser keeps showing it an old cached copy ("@1"
+// stays cached for up to 7 days).
+const { version } = JSON.parse(readFileSync('package.json', 'utf8'));
+const example = readFileSync('example.html', 'utf8');
+writeFileSync('example.html', example.replace(/@alloyhtml\/css@[^/]+\//g, `@alloyhtml/css@${version}/`));
+console.log(`built dist/, example.html on ${version}`);
